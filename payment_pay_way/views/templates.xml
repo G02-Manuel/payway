@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="inline_form" name="Payway inline form">
+        <div class="o_payway_form" t-attf-id="o_payway_form_{{provider_id}}">
+            <!-- Email -->
+            <div class="form-group">
+                <t t-set="email" t-value="order.partner_id.email if order and request.env.user.id == request.env.ref('base.public_user').id else request.env.user.email"/>
+                <input id="email" name="email" placeholder="email" t-att-class="'o_hidden' if email else 'form-control'" t-att-value="email"/>
+            </div>
+            <!-- Card -->
+            <div class="form-group">
+                <label class="col-form-label" t-attf-for="o_payway_card_number_{{provider_id}}">Card Number</label>
+                <input class="form-control" data-decidir="card_number" maxlength="19" required="" t-attf-id="o_payway_card_number_{{provider_id}}" type="text"/>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" t-attf-for="o_payway_method_{{provider_id}}" t-attf-id="o_payway_method_label_{{provider_id}}">Card</label>
+                <select class="form-control" t-attf-id="o_payway_method_{{provider_id}}" type="text"/>
+            </div>
+            <!-- Installments -->
+            <div class="form-group">
+                <label class="o_hidden col-form-label" t-attf-for="o_payway_installments_{{provider_id}}" t-attf-id="o_payway_installments_label_{{provider_id}}">Installments</label>
+                <select class="o_hidden form-control" t-attf-id="o_payway_installments_select_{{provider_id}}" type="text"/>
+            </div>
+            <div class="row">
+                <!-- Expiration -->
+                <div class="col-sm-8 form-group">
+                    <label t-attf-for="o_payway_month_{{provider_id}}">Expiration</label>
+                    <div class="input-group">
+                        <input class="form-control" data-decidir="card_expiration_month" max="12" min="1" placeholder="MM" required="" t-attf-id="o_payway_month_{{provider_id}}" type="number"/>
+                        <input class="form-control" data-decidir="card_expiration_year" max="99" min="00" placeholder="YY" required="" t-attf-id="o_payway_year_{{provider_id}}" type="number"/>
+                    </div>
+                </div>
+                <!-- Card Code -->
+                <div class="col-sm-4 form-group">
+                    <label t-attf-for="o_payway_code_{{provider_id}}">Card Code</label>
+                    <input class="form-control" data-decidir="security_code" maxlength="4" t-attf-id="o_payway_code_{{provider_id}}" type="password"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" t-attf-for="o_payway_holder_{{provider_id}}">Card Holder</label>
+                <input class="form-control" data-decidir="card_holder_name" required="" t-attf-id="o_payway_holder_{{provider_id}}" type="text"/>
+            </div>
+            <!-- Identification -->
+            <label class="col-form-label" t-attf-for="o_payway_identification_{{provider_id}}">Identification</label>
+            <div class="row" t-attf-id="o_payway_identification_{{provider_id}}">
+                <div class="col-sm-4 form-group">
+                    <select class="form-control" data-decidir="type" t-attf-id="o_payway_vat_{{provider_id}}" type="text">
+                        <option seleted="selected" value="dni">DNI</option>
+                        <option value="cuil">CUIL</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 form-group">
+                    <input class="form-control" data-decidir="card_holder_doc_number" maxlength="16" placeholder="Número" t-attf-id="o_payway_vat_number_{{provider_id}}" type="text"/>
+                </div>
+            </div>
+            <input name="amount" t-attf-id="o_payway_amount_{{provider_id}}" type="hidden"/>
+        </div>
+    </template>
+    <template id="payway_checkout" inherit_id="payment.checkout" name="payway Payment Checkout">
+        <xpath expr="//div[@t-attf-id='o_payment_token_inline_form_{{token.id}}']" position="inside">
+            <t t-if="token.provider_id.code == 'payway'">
+                <div class="o_payway_form" t-attf-id="o_payway_token_form_{{token.id}}">
+                    <input name="method" t-att-value="token.payway_payment_method" t-attf-id="o_payway_token_method_{{token.id}}" type="hidden"/>
+                    <input data-decidir="token" name="method" t-att-value="token.provider_ref" t-attf-id="o_payway_token_provider_ref_{{token.id}}" type="hidden"/>
+                    <div class="row">
+                        <!-- Installments -->
+                        <div class="col-6 form-group">
+                            <label class="o_hidden col-form-label" t-attf-for="o_payway_installments_{{token.id}}" t-attf-id="o_payway_token_installments_label_{{token.id}}">Installments</label>
+                            <select class="o_hidden form-control" t-attf-id="o_payway_token_installments_select_{{token.id}}" type="text"/>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label class="col-form-label" t-attf-for="o_payway_token_code_{{token.id}}">CVV</label>
+                            <input class="form-control" data-decidir="security_code" maxlength="4" placeholder="cvv" required="" t-attf-id="o_payway_token_code_{{token.id}}" type="password"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="payment_transaction_view_form" model="ir.ui.view">
+        <field name="name">payment_transaction.view.form</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.payment_transaction_form"/>
+        <field name="arch" type="xml">
+            <group name="transaction_partner" position="after">
+                <group name="payway">
+                    <field name="payway_payment_method"/>
+                    <field name="payway_payment_instalment"/>
+                    <field attrs="{'invisible': [('state', '!=', 'done')]}" name="payway_payment_id"/>
+                    <field attrs="{'invisible': [('state', '!=', 'done')]}" name="payway_ticket"/>
+                    <field attrs="{'invisible': [('state', '!=', 'done')]}" name="payway_card_authorization_code"/>
+                    <field attrs="{'invisible': [('state', '!=', 'done')]}" name="payway_address_validation_code"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="payment_provider_payway" model="payment.provider">
+            <field name="payway_commerce">999 99999</field>
+            <field name="payway_public_key">96e7f0d36a0648fb9a8dcb50ac06d260</field>
+            <field name="payway_secret_key">1b19bb47507c4a259ca22c12f78e881f</field>
+        </record>
+        <record id="card_installment.card_visa_credit" model="account.card">
+            <field name="payway_method">1</field>
+        </record>
+        <record id="card_installment.card_visa_debit" model="account.card">
+            <field name="payway_method">31</field>
+        </record>
+        <record id="card_installment.card_amex" model="account.card">
+            <field name="payway_method">111</field>
+        </record>
+        <record id="card_installment.card_master_credit" model="account.card">
+            <field name="payway_method">104</field>
+        </record>
+        <record id="card_installment.card_master_debit" model="account.card">
+            <field name="payway_method">105</field>
+        </record>
+        <record id="card_installment.card_naranja" model="account.card">
+            <field name="payway_method">24</field>
+        </record>
+        <record id="card_installment.card_maestro" model="account.card">
+            <field name="payway_method">106</field>
+        </record>
+    </data>
+</odoo>
